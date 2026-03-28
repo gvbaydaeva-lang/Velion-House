@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cilika Home — Строительство домов в Элисте</title>
+  <!--
+    Тема оформления: светлая по умолчанию (переменные в :root).
+    Тёмная включается атрибутом data-theme="dark" на <html> (см. скрипт в конце страницы и блок ниже).
+  -->
+  <script>
+    (function () {
+      try {
+        var storageKey = 'cilika-theme';
+        var stored = localStorage.getItem(storageKey);
+        if (stored === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else if (stored === 'light') {
+          document.documentElement.removeAttribute('data-theme');
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) { /* без localStorage остаётся светлая тема */ }
+    })();
+    /* Приветствие уже закрывали в этой вкладке — не показываем слой до отрисовки */
+    (function () {
+      try {
+        if (sessionStorage.getItem('cilika-welcome-seen') === '1') {
+          document.documentElement.classList.add('no-welcome');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="description" content="Cilika Home — строительство частных домов под ключ в Элисте, Республика Калмыкия. Проектирование, фундамент, коробка, инженерия, отделка." />
+  <meta name="keywords" content="строительство домов Элиста, дом под ключ Калмыкия, частный дом Элиста, строительная компания Cilika Home" />
+  <meta name="author" content="Cilika Home" />
+
+  <!-- Основные стили: assets/css/main.css (темы через data-theme на <html>) -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body>
+  <!-- Приветственный экран: один раз за сессию браузера, закрывается кнопкой или «Пропустить» -->
+  <div
+    class="welcome-screen"
+    id="welcomeScreen"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="welcomeTitle"
+    aria-describedby="welcomeDesc"
+  >
+    <div class="welcome-card">
+      <p class="welcome-brand">Cilika Home</p>
+      <h2 id="welcomeTitle">Добро пожаловать</h2>
+      <p id="welcomeDesc">
+        Мы строим частные дома в Элисте и по Республике Калмыкии. На сайте — примерные проекты,
+        калькулятор ориентировочной стоимости и форма заявки на консультацию.
+      </p>
+      <div class="welcome-actions">
+        <button type="button" class="btn btn-primary" id="welcomeEnter">Перейти к сайту</button>
+        <a href="#lead" class="btn btn-secondary" id="welcomeLead">Сразу оставить заявку</a>
+      </div>
+      <button type="button" class="welcome-skip" id="welcomeSkip">Пропустить приветствие</button>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="#hero" class="logo">Cilika <span>Home</span></a>
+
+        <nav class="nav" aria-label="Основное меню">
+          <a href="#services">Услуги</a>
+          <a href="#projects">Проекты</a>
+          <a href="#steps">Этапы</a>
+          <a href="#calculator">Калькулятор</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+
+        <div class="header-contacts">
+          <a class="phone-link" href="tel:+79991234567">+7 (999) 123-45-67</a>
+          <a class="btn btn-primary" href="#lead">Оставить заявку</a>
+        </div>
+
+        <button class="burger" id="burger" aria-label="Открыть меню"><span></span></button>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <nav>
+          <a href="#services">Услуги</a>
+          <a href="#projects">Проекты</a>
+          <a href="#steps">Этапы</a>
+          <a href="#calculator">Калькулятор</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="mobile-actions">
+          <a class="phone-link" href="tel:+79991234567">+7 (999) 123-45-67</a>
+          <a class="btn btn-primary" href="#lead">Оставить заявку</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left reveal">
+          <div class="tag">Строительство домов в Элисте и Республике Калмыкия</div>
+          <h1 class="hero-title">Надёжные дома под ключ от компании <span>Cilika Home</span></h1>
+          <p class="hero-text">
+            Проектируем и строим современные частные дома для жизни, отдыха и инвестиций.
+            Берём на себя весь цикл работ: от идеи и сметы до сдачи готового объекта.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#lead" class="btn btn-primary">Получить консультацию</a>
+            <a href="#projects" class="btn btn-secondary">Смотреть проекты</a>
+          </div>
+
+          <div class="hero-features">
+            <div class="hero-feature">
+              <strong>от 60 м²</strong>
+              <span>Строим компактные и большие дома под ваш бюджет</span>
+            </div>
+            <div class="hero-feature">
+              <strong>по договору</strong>
+              <span>Фиксируем этапы, сроки и стоимость работ</span>
+            </div>
+            <div class="hero-feature">
+              <strong>под ключ</strong>
+              <span>От проекта и фундамента до отделки и инженерии</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right reveal">
+          <div class="hero-card">
+            <div class="hero-card-content">
+              <div class="hero-badge">Индивидуальный подход к каждому проекту</div>
+              <h3>Строим дома, в которых хочется жить десятилетиями</h3>
+              <p>Учитываем климат, особенности участка, стиль жизни семьи и пожелания по планировке, фасаду и внутренним решениям.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="advantages">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Почему выбирают нас</div>
+        <h2 class="section-title">Преимущества работы с Cilika Home</h2>
+        <p class="section-subtitle">
+          Мы делаем упор на качество строительства, прозрачность процесса и понятную коммуникацию
+          с заказчиком на каждом этапе проекта.
+        </p>
+      </div>
+
+      <div class="advantages-grid">
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">🏠</div>
+          <h3>Комплексный подход</h3>
+          <p>От первой консультации и проектирования до сдачи готового дома — все работы в одном месте.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">📐</div>
+          <h3>Индивидуальные решения</h3>
+          <p>Подбираем планировку, конструктив и материалы под участок, бюджет и задачи вашей семьи.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">🧱</div>
+          <h3>Контроль качества</h3>
+          <p>Внимательно следим за технологией на каждом этапе: фундамент, стены, кровля, инженерные сети и отделка.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">🤝</div>
+          <h3>Прозрачность и отчётность</h3>
+          <p>Даём понятную смету, фиксируем этапы работ и держим клиента в курсе хода строительства.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Наши услуги</div>
+        <h2 class="section-title">Что мы строим и какие работы выполняем</h2>
+        <p class="section-subtitle">
+          Компания Cilika Home помогает реализовать как типовые, так и индивидуальные проекты
+          частных домов в Элисте и по Республике Калмыкия.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card reveal">
+          <div class="service-image" style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="service-content">
+            <h3>Строительство домов под ключ</h3>
+            <p>Полный цикл строительства: от подготовки участка до финальной отделки и передачи объекта.</p>
+            <ul class="service-list">
+              <li>Подбор технологии строительства</li>
+              <li>Фундамент и коробка дома</li>
+              <li>Кровельные работы</li>
+              <li>Внутренние и наружные работы</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-image" style="background-image:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="service-content">
+            <h3>Проектирование и планировка</h3>
+            <p>Разработка удобных и функциональных решений под ваш участок, семью и будущий образ жизни.</p>
+            <ul class="service-list">
+              <li>Индивидуальные проекты домов</li>
+              <li>Адаптация типовых решений</li>
+              <li>Планировка помещений</li>
+              <li>Подбор фасадных решений</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="service-image" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="service-content">
+            <h3>Инженерия и отделка</h3>
+            <p>Выполняем внутренние коммуникации и отделочные работы, чтобы дом был готов к проживанию.</p>
+            <ul class="service-list">
+              <li>Электрика, отопление, водоснабжение</li>
+              <li>Черновая и чистовая отделка</li>
+              <li>Установка оборудования</li>
+              <li>Подготовка дома к сдаче</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Популярные решения</div>
+        <h2 class="section-title">Примеры проектов домов</h2>
+        <p class="section-subtitle">
+          Ниже — примеры типовых решений. Вы можете использовать их как основу
+          или заказать полностью индивидуальный проект.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card reveal">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="project-body">
+            <h3>Дом “Степной”</h3>
+            <div class="project-meta">
+              <span>85 м²</span><span>1 этаж</span><span>2 спальни</span>
+            </div>
+            <p>Компактный и функциональный дом для небольшой семьи. Подходит для постоянного проживания и загородного формата.</p>
+            <div class="project-price">от 3 500 000 ₽<small>Ориентировочная стоимость. Уточняется после расчёта.</small></div>
+            <a href="#lead" class="btn btn-primary">Хочу такой проект</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="project-body">
+            <h3>Дом “Калмыкия”</h3>
+            <div class="project-meta">
+              <span>120 м²</span><span>1 этаж</span><span>3 спальни</span>
+            </div>
+            <p>Просторный одноэтажный дом с удобной кухней-гостиной, отдельной приватной зоной и террасой.</p>
+            <div class="project-price">от 4 900 000 ₽<small>Цена зависит от комплектации, материалов и участка.</small></div>
+            <a href="#lead" class="btn btn-primary">Получить расчёт</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="project-body">
+            <h3>Дом “Семейный”</h3>
+            <div class="project-meta">
+              <span>160 м²</span><span>2 этажа</span><span>4 спальни</span>
+            </div>
+            <p>Дом для большой семьи с просторной общей зоной, несколькими санузлами и возможностью организации кабинета.</p>
+            <div class="project-price">от 6 800 000 ₽<small>Финальная смета формируется после согласования проекта.</small></div>
+            <a href="#lead" class="btn btn-primary">Оставить заявку</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="steps">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Как мы работаем</div>
+        <h2 class="section-title">Понятный процесс от заявки до готового дома</h2>
+        <p class="section-subtitle">
+          Мы стараемся сделать строительство прозрачным и удобным для клиента,
+          чтобы вы понимали каждый этап реализации проекта.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card reveal"><div class="step-number">01</div><h3>Консультация</h3><p>Обсуждаем пожелания, бюджет, участок, сроки и формат будущего дома.</p></div>
+        <div class="step-card reveal"><div class="step-number">02</div><h3>Проект и смета</h3><p>Подбираем решение, составляем предварительную смету и определяем этапы работ.</p></div>
+        <div class="step-card reveal"><div class="step-number">03</div><h3>Строительство</h3><p>Выполняем работы по согласованному плану с контролем качества и сроков.</p></div>
+        <div class="step-card reveal"><div class="step-number">04</div><h3>Сдача объекта</h3><p>Передаём готовый дом и консультируем по дальнейшей эксплуатации.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="calculator">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Предварительный расчёт</div>
+        <h2 class="section-title">Калькулятор примерной стоимости дома</h2>
+        <p class="section-subtitle">
+          Этот калькулятор показывает ориентировочную сумму. Для точного расчёта
+          нужно учесть участок, материалы, комплектацию и инженерные решения.
+        </p>
+      </div>
+
+      <div class="calculator-box reveal">
+        <div class="calculator-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="area">Площадь дома (м²)</label>
+              <input type="number" id="area" value="100" min="40" max="500" />
+            </div>
+            <div class="form-group">
+              <label for="floors">Количество этажей</label>
+              <select id="floors">
+                <option value="1">1 этаж</option>
+                <option value="1.15">2 этажа</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="package">Комплектация</label>
+              <select id="package">
+                <option value="35000">Базовая</option>
+                <option value="47000" selected>Стандарт</option>
+                <option value="62000">Премиум</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="material">Материал</label>
+              <select id="material">
+                <option value="1">Газоблок</option>
+                <option value="1.08">Кирпич</option>
+                <option value="0.95">Каркасная технология</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <button class="btn btn-primary" id="calcBtn" type="button">Рассчитать стоимость</button>
+            </div>
+          </div>
+          <p class="note">Важно: расчёт примерный и не является публичной офертой. Для точной сметы оставьте заявку.</p>
+        </div>
+
+        <div class="calculator-result">
+          <h3>Ориентировочная стоимость</h3>
+          <div class="price" id="calcResult">4 700 000 ₽</div>
+          <p>
+            Расчёт зависит от площади, этажности, выбранной комплектации и материала строительства.
+            Наш менеджер подготовит детальную смету после консультации.
+          </p>
+          <div style="margin-top: 24px;">
+            <a href="#lead" class="btn btn-secondary" style="color:#fff;border-color:#fff;">Получить точную смету</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Вопросы и ответы</div>
+        <h2 class="section-title">Часто задаваемые вопросы</h2>
+        <p class="section-subtitle">
+          Собрали самые популярные вопросы клиентов о строительстве домов,
+          сроках, стоимости и формате работы.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button"><span>Сколько стоит построить дом под ключ?</span><span>+</span></button>
+          <div class="faq-answer"><p>Стоимость зависит от площади, технологии строительства, этажности, инженерных решений и уровня отделки. Мы делаем предварительный расчёт после консультации и подготавливаем детальную смету.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button"><span>Можно ли построить дом по индивидуальному проекту?</span><span>+</span></button>
+          <div class="faq-answer"><p>Да, мы работаем как с типовыми решениями, так и с индивидуальными проектами. Подберём планировку, фасад, материалы и технические решения под ваш запрос.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button"><span>Сколько занимает строительство?</span><span>+</span></button>
+          <div class="faq-answer"><p>Срок зависит от площади дома, сложности проекта, сезона и объёма работ. После согласования проекта и сметы мы обозначаем ориентировочный график реализации.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button"><span>Вы помогаете с подбором материалов?</span><span>+</span></button>
+          <div class="faq-answer"><p>Да, мы консультируем по материалам и предлагаем решения с учётом бюджета, долговечности, энергоэффективности и внешнего вида дома.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lead">
+    <div class="container">
+      <div class="lead-box">
+        <div class="lead-left reveal">
+          <div class="tag">Оставить заявку</div>
+          <h2 class="section-title">Обсудим строительство вашего дома</h2>
+          <p class="section-subtitle" style="margin-bottom: 26px;">
+            Заполните форму, и мы свяжемся с вами для консультации,
+            подбора проекта и предварительного расчёта стоимости.
+          </p>
+
+          <form id="leadForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Ваше имя</label>
+                <input type="text" id="name" name="name" placeholder="Например, Алина" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required />
+              </div>
+              <div class="form-group full">
+                <label for="message">Комментарий</label>
+                <textarea id="message" name="message" placeholder="Например: нужен дом 120 м², 3 спальни, одноэтажный"></textarea>
+              </div>
+              <div class="form-group full">
+                <button class="btn btn-primary" type="submit">Отправить заявку</button>
+              </div>
+            </div>
+            <p class="note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+          </form>
+        </div>
+
+        <div class="lead-right reveal">
+          <div class="tag">Что вы получите</div>
+          <h3 style="font-size: 30px; margin-bottom: 16px;">После обращения к нам</h3>
+          <ul>
+            <li>Предварительную консультацию по вашему проекту</li>
+            <li>Понимание возможного бюджета и комплектации</li>
+            <li>Рекомендации по планировке и технологии строительства</li>
+            <li>Ответы на вопросы по срокам и этапам работ</li>
+            <li>Дальнейший план действий по запуску строительства</li>
+          </ul>
+          <div style="margin-top: 24px;">
+            <a class="btn btn-secondary" href="https://wa.me/79991234567" target="_blank" rel="noopener">Написать в WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contacts">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Контакты</div>
+        <h2 class="section-title">Свяжитесь с Cilika Home</h2>
+        <p class="section-subtitle">Готовы обсудить строительство дома, подобрать проект и подготовить предварительный расчёт.</p>
+      </div>
+
+      <div class="contacts-grid">
+        <div class="contact-card reveal">
+          <div class="contact-item"><h4>Телефон</h4><a href="tel:+79991234567">+7 (999) 123-45-67</a></div>
+          <div class="contact-item"><h4>WhatsApp</h4><a href="https://wa.me/79991234567" target="_blank" rel="noopener">Написать в WhatsApp</a></div>
+          <div class="contact-item"><h4>Email</h4><a href="mailto:info@cilikahome.ru">info@cilikahome.ru</a></div>
+          <div class="contact-item"><h4>Адрес</h4><p>г. Элиста, Республика Калмыкия</p></div>
+          <div class="contact-item"><h4>Режим работы</h4><p>Пн–Сб: 09:00–18:00</p></div>
+        </div>
+
+        <div class="map-card reveal">
+          <div class="map-placeholder">
+            <div class="map-box">
+              <h3>Мы работаем по Элисте и Калмыкии</h3>
+              <p>Здесь можно разместить карту Яндекс.Карт или Google Maps. Пока установлен визуальный блок-заглушка.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p>© 2026 Cilika Home. Все права защищены.</p>
+        <div class="footer-links">
+          <a href="#hero">Наверх</a>
+          <a href="#services">Услуги</a>
+          <a href="#projects">Проекты</a>
+          <a href="#contacts">Контакты</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!--
+    Кнопка «тема»: иконка луны = сейчас светлая тема, по клику включится тёмная;
+    иконка солнца = сейчас тёмная тема, по клику вернётся светлая.
+    Состояние сохраняется в localStorage (ключ cilika-theme).
+  -->
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Включить тёмную тему" title="Включить тёмную тему" aria-pressed="false">🌙</button>
+
+  <script>
+    (function () {
+      var storageKey = 'cilika-theme';
+      var root = document.documentElement;
+      var themeBtn = document.getElementById('themeToggle');
+
+      function isDarkTheme() {
+        return root.getAttribute('data-theme') === 'dark';
+      }
+
+      function syncThemeToggle() {
+        if (!themeBtn) return;
+        var dark = isDarkTheme();
+        themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+        themeBtn.setAttribute('aria-label', dark ? 'Включить светлую тему' : 'Включить тёмную тему');
+        themeBtn.title = themeBtn.getAttribute('aria-label');
+        themeBtn.textContent = dark ? '☀️' : '🌙';
+      }
+
+      function applyTheme(dark) {
+        if (dark) {
+          root.setAttribute('data-theme', 'dark');
+          try { localStorage.setItem(storageKey, 'dark'); } catch (e) {}
+        } else {
+          root.removeAttribute('data-theme');
+          try { localStorage.setItem(storageKey, 'light'); } catch (e) {}
+        }
+        syncThemeToggle();
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          applyTheme(!isDarkTheme());
+        });
+      }
+      syncThemeToggle();
+    })();
+
+    /* Приветствие: показ при первом открытии вкладки, запоминание в sessionStorage */
+    (function () {
+      var welcomeEl = document.getElementById('welcomeScreen');
+      if (!welcomeEl || document.documentElement.classList.contains('no-welcome')) return;
+
+      function dismissWelcome() {
+        try {
+          sessionStorage.setItem('cilika-welcome-seen', '1');
+        } catch (e) {}
+        document.documentElement.classList.add('no-welcome');
+        welcomeEl.setAttribute('aria-hidden', 'true');
+        var focusTarget = document.querySelector('.logo');
+        if (focusTarget) focusTarget.focus();
+      }
+
+      var btnEnter = document.getElementById('welcomeEnter');
+      var btnSkip = document.getElementById('welcomeSkip');
+      var linkLead = document.getElementById('welcomeLead');
+      if (btnEnter) btnEnter.addEventListener('click', dismissWelcome);
+      if (btnSkip) btnSkip.addEventListener('click', dismissWelcome);
+      if (linkLead) linkLead.addEventListener('click', dismissWelcome);
+
+      if (btnEnter) btnEnter.focus();
+    })();
+
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      const icon = question.querySelector('span:last-child');
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(otherItem => {
+          otherItem.classList.remove('active');
+          const otherIcon = otherItem.querySelector('.faq-question span:last-child');
+          if (otherIcon) otherIcon.textContent = '+';
+        });
+        if (!isActive) {
+          item.classList.add('active');
+          icon.textContent = '−';
+        }
+      });
+    });
+
+    const areaInput = document.getElementById('area');
+    const floorsInput = document.getElementById('floors');
+    const packageInput = document.getElementById('package');
+    const materialInput = document.getElementById('material');
+    const calcBtn = document.getElementById('calcBtn');
+    const calcResult = document.getElementById('calcResult');
+
+    function formatPrice(num) {
+      return new Intl.NumberFormat('ru-RU').format(Math.round(num)) + ' ₽';
+    }
+
+    function calculatePrice() {
+      const area = parseFloat(areaInput.value) || 0;
+      const floors = parseFloat(floorsInput.value) || 1;
+      const pkg = parseFloat(packageInput.value) || 0;
+      const material = parseFloat(materialInput.value) || 1;
+      const total = area * pkg * floors * material;
+      calcResult.textContent = formatPrice(total);
+    }
+
+    calcBtn.addEventListener('click', calculatePrice);
+    [areaInput, floorsInput, packageInput, materialInput].forEach(input => {
+      input.addEventListener('input', calculatePrice);
+      input.addEventListener('change', calculatePrice);
+    });
+    calculatePrice();
+
+    const leadForm = document.getElementById('leadForm');
+    leadForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if (!name || !phone) {
+        alert('Пожалуйста, заполните имя и телефон.');
+        return;
+      }
+      alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+      leadForm.reset();
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
