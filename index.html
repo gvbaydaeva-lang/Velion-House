@@ -108,7 +108,7 @@
         <div class="hero-right reveal">
           <div class="hero-card">
             <div class="hero-card-content">
-              <div class="hero-badge">Коттеджные поселки и частные дома под ключ</div>
+              <div class="hero-badge">Коттеджные поселки и частные  дома под ключ</div>
               <h3>Выбирайте формат: дом в поселке или строительство на своем участке</h3>
               <p>Сохраняем комплексный подход: проектирование, строительство, интерьер, ремонт под ключ и прозрачное сопровождение на каждом этапе.</p>
             </div>
@@ -612,6 +612,109 @@
     }, { threshold: 0.15 });
 
     revealElements.forEach(el => observer.observe(el));
+
+    function splitTextToChars(rootEl) {
+      const textNodes = [];
+      const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue || !node.nodeValue.trim()) {
+            return node.nodeValue && node.nodeValue.includes(' ')
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+
+      let current;
+      while ((current = walker.nextNode())) {
+        textNodes.push(current);
+      }
+
+      textNodes.forEach((node) => {
+        const fragment = document.createDocumentFragment();
+        const parts = (node.nodeValue || '').split(/(\s+)/);
+        parts.forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            fragment.appendChild(document.createTextNode(part));
+            return;
+          }
+
+          const wordSpan = document.createElement('span');
+          wordSpan.className = 'split-word';
+          Array.from(part).forEach((char) => {
+            if (char === '\n') return;
+            const span = document.createElement('span');
+            span.className = 'split-char';
+            span.textContent = char;
+            wordSpan.appendChild(span);
+          });
+          fragment.appendChild(wordSpan);
+        });
+        node.parentNode.replaceChild(fragment, node);
+      });
+    }
+
+    function animateSplitChars(el, options) {
+      const settings = Object.assign({
+        delay: 50,
+        duration: 1.25,
+        threshold: 0.1,
+        rootMargin: '-100px',
+        fromY: 40,
+        toY: 0
+      }, options || {});
+
+      el.classList.add('split-parent');
+      splitTextToChars(el);
+      const chars = Array.from(el.querySelectorAll('.split-char'));
+      if (!chars.length) return;
+
+      chars.forEach((char) => {
+        char.style.transform = `translateY(${settings.fromY}px)`;
+      });
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        chars.forEach((char) => char.classList.add('is-visible'));
+        console.log('All letters have animated!');
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const totalMs = Math.max(0, (chars.length - 1) * settings.delay) + settings.duration * 1000;
+          chars.forEach((char, idx) => {
+            char.style.transitionDelay = `${idx * settings.delay}ms`;
+            char.style.transform = `translateY(${settings.toY}px)`;
+            char.classList.add('is-visible');
+          });
+          window.setTimeout(() => {
+            console.log('All letters have animated!');
+          }, totalMs + 60);
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: settings.threshold,
+        rootMargin: settings.rootMargin
+      });
+
+      observer.observe(el);
+    }
+
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+      animateSplitChars(heroTitle, {
+        delay: 50,
+        duration: 1.25,
+        threshold: 0.1,
+        rootMargin: '-100px',
+        fromY: 40,
+        toY: 0
+      });
+    }
 
     window.addEventListener('load', () => {
       document.body.classList.add('page-ready');
