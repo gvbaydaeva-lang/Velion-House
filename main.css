@@ -374,18 +374,33 @@ ul { list-style: none; }
   transform: translateY(var(--hero-parallax, 0px));
   transition: transform 0.15s linear;
   will-change: transform;
+  z-index: 0;
 }
 .hero-card::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(201, 164, 106, 0.18), transparent 45%);
+  z-index: 1;
+}
+.hero-prism {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  overflow: hidden;
 }
 .hero-card-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   padding: 28px;
   color: #fff;
+}
+html[data-theme="dark"] .hero-prism {
+  opacity: 0.42;
+  mix-blend-mode: plus-lighter;
 }
 .hero-badge {
   display: inline-block;
@@ -465,11 +480,15 @@ ul { list-style: none; }
   font-size: 18px;
 }
 
-.services-grid,
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
 .service-card,
 .project-card {
@@ -551,9 +570,10 @@ ul { list-style: none; }
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 20px;
 }
 .project-body h3 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 12px;
   font-family: var(--font-display);
   font-weight: 400;
@@ -566,10 +586,10 @@ ul { list-style: none; }
 }
 .project-meta span {
   display: inline-block;
-  padding: 8px 12px;
+  padding: 7px 10px;
   background: var(--chip-bg);
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--primary-dark);
   font-weight: 700;
 }
@@ -586,6 +606,72 @@ ul { list-style: none; }
   color: var(--muted);
   font-weight: 400;
   margin-top: 6px;
+}
+
+.testimonials-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  overflow: hidden;
+}
+.testimonials-viewport {
+  position: relative;
+  width: min(100%, 1120px);
+  overflow: hidden;
+  padding: 10px 6px;
+}
+.testimonials-track {
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+  transform: translateX(0);
+}
+.testimonials-track.is-sliding {
+  transition: transform 0.62s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.testimonial-card {
+  position: relative;
+  flex: 0 0 calc((100% - 44px) / 3);
+  min-height: 360px;
+  padding: 26px 24px;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--white) 88%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  user-select: none;
+  touch-action: pan-y;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-4px);
+}
+.testimonial-card-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--line);
+  margin: 0 auto 4px;
+}
+.testimonial-card-text {
+  color: var(--text);
+  font-size: 17px;
+  font-style: italic;
+  text-align: center;
+  align-self: center;
+}
+.testimonial-card-author {
+  text-align: center;
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 15px;
+}
+html[data-theme="dark"] .testimonial-card {
+  background: color-mix(in srgb, var(--white) 80%, transparent);
 }
 
 .calculator-box,
@@ -895,6 +981,12 @@ textarea { min-height: 120px; resize: vertical; }
   .steps-grid {
     grid-template-columns: 1fr;
   }
+  .testimonials-viewport {
+    width: min(100%, 920px);
+  }
+  .testimonial-card {
+    flex-basis: calc((100% - 22px) / 2);
+  }
   .section { padding: 64px 0; }
   .section-title { font-size: 34px; }
   .hero-title { font-size: 44px; }
@@ -911,6 +1003,14 @@ textarea { min-height: 120px; resize: vertical; }
   .contact-card,
   .calculator-form,
   .calculator-result { padding: 24px; }
+  .testimonial-card {
+    flex-basis: 100%;
+    min-height: 390px;
+    padding: 22px 18px;
+  }
+  .testimonial-card-text {
+    font-size: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
