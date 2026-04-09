@@ -22,14 +22,6 @@
         }
       } catch (e) { /* без localStorage остаётся светлая тема */ }
     })();
-    /* Приветствие уже закрывали в этой вкладке — не показываем слой до отрисовки */
-    (function () {
-      try {
-        if (sessionStorage.getItem('cilika-welcome-seen') === '1') {
-          document.documentElement.classList.add('no-welcome');
-        }
-      } catch (e) {}
-    })();
   </script>
   <meta name="description" content="Cilika Home — коттеджные поселки «Облака», «Пион», «Изумрудный» и «Money» в восточной части города. Строительство домов под ключ в поселках и на вашем участке, ремонт и семейная ипотека." />
   <meta name="keywords" content="коттеджный поселок, облака пион изумрудный money, дом под ключ, строительство на участке, семейная ипотека" />
@@ -42,30 +34,6 @@
   <link rel="stylesheet" href="./main.css" />
 </head>
 <body>
-  <!-- Приветственный экран: один раз за сессию браузера, закрывается кнопкой или «Пропустить» -->
-  <div
-    class="welcome-screen"
-    id="welcomeScreen"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="welcomeTitle"
-    aria-describedby="welcomeDesc"
-  >
-    <div class="welcome-card">
-      <p class="welcome-brand">Cilika Home</p>
-      <h2 id="welcomeTitle">Добро пожаловать</h2>
-      <p id="welcomeDesc">
-        Мы развиваем коттеджные поселки в восточной части города: «Облака», «Пион», «Изумрудный» и «Money».
-        Также строим дома под ключ на вашем участке, делаем ремонт под ключ и помогаем с семейной ипотекой.
-      </p>
-      <div class="welcome-actions">
-        <button type="button" class="btn btn-primary" id="welcomeEnter">Перейти к сайту</button>
-        <a href="#lead" class="btn btn-secondary" id="welcomeLead">Сразу оставить заявку</a>
-      </div>
-      <button type="button" class="welcome-skip" id="welcomeSkip">Пропустить приветствие</button>
-    </div>
-  </div>
-
   <header class="header">
     <div class="container">
       <div class="header-inner">
@@ -564,31 +532,6 @@
       syncThemeToggle();
     })();
 
-    /* Приветствие: показ при первом открытии вкладки, запоминание в sessionStorage */
-    (function () {
-      var welcomeEl = document.getElementById('welcomeScreen');
-      if (!welcomeEl || document.documentElement.classList.contains('no-welcome')) return;
-
-      function dismissWelcome() {
-        try {
-          sessionStorage.setItem('cilika-welcome-seen', '1');
-        } catch (e) {}
-        document.documentElement.classList.add('no-welcome');
-        welcomeEl.setAttribute('aria-hidden', 'true');
-        var focusTarget = document.querySelector('.logo');
-        if (focusTarget) focusTarget.focus();
-      }
-
-      var btnEnter = document.getElementById('welcomeEnter');
-      var btnSkip = document.getElementById('welcomeSkip');
-      var linkLead = document.getElementById('welcomeLead');
-      if (btnEnter) btnEnter.addEventListener('click', dismissWelcome);
-      if (btnSkip) btnSkip.addEventListener('click', dismissWelcome);
-      if (linkLead) linkLead.addEventListener('click', dismissWelcome);
-
-      if (btnEnter) btnEnter.focus();
-    })();
-
     const burger = document.getElementById('burger');
     const mobileMenu = document.getElementById('mobileMenu');
 
@@ -607,17 +550,13 @@
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
       const question = item.querySelector('.faq-question');
-      const icon = question.querySelector('span:last-child');
       question.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
         faqItems.forEach(otherItem => {
           otherItem.classList.remove('active');
-          const otherIcon = otherItem.querySelector('.faq-question span:last-child');
-          if (otherIcon) otherIcon.textContent = '+';
         });
         if (!isActive) {
           item.classList.add('active');
-          icon.textContent = '−';
         }
       });
     });
@@ -673,6 +612,20 @@
     }, { threshold: 0.15 });
 
     revealElements.forEach(el => observer.observe(el));
+
+    window.addEventListener('load', () => {
+      document.body.classList.add('page-ready');
+    });
+
+    const heroCard = document.querySelector('.hero-card');
+    if (heroCard) {
+      const updateHeroParallax = () => {
+        const offset = Math.min(window.scrollY * 0.08, 26);
+        heroCard.style.setProperty('--hero-parallax', `${offset}px`);
+      };
+      updateHeroParallax();
+      window.addEventListener('scroll', updateHeroParallax, { passive: true });
+    }
   </script>
 </body>
 </html>
