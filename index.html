@@ -42,6 +42,7 @@
         <nav class="nav" aria-label="Основное меню">
           <a href="#services">Услуги</a>
           <a href="#projects">Поселки</a>
+          <a href="#offers">Акции</a>
           <a href="#steps">Этапы</a>
           <a href="#calculator">Калькулятор</a>
           <a href="#testimonials">Отзывы</a>
@@ -61,6 +62,7 @@
         <nav>
           <a href="#services">Услуги</a>
           <a href="#projects">Поселки</a>
+          <a href="#offers">Акции</a>
           <a href="#steps">Этапы</a>
           <a href="#calculator">Калькулятор</a>
           <a href="#testimonials">Отзывы</a>
@@ -118,6 +120,17 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="offers">
+    <div class="container">
+      <div class="reveal">
+        <div class="tag">Акции и выгода</div>
+        <h2 class="section-title">Специальные предложения</h2>
+        <p class="section-subtitle">Актуальные акции по строительству, отделке и сопровождению сделки.</p>
+      </div>
+      <div class="offers-grid" id="offersGrid"></div>
     </div>
   </section>
 
@@ -504,6 +517,7 @@
           <a href="#hero">Наверх</a>
           <a href="#services">Услуги</a>
           <a href="#projects">Поселки</a>
+          <a href="#offers">Акции</a>
           <a href="#testimonials">Отзывы</a>
           <a href="#contacts">Контакты</a>
         </div>
@@ -706,17 +720,83 @@
     calculatePrice();
 
     const leadForm = document.getElementById('leadForm');
-    leadForm.addEventListener('submit', function(e) {
+    leadForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
+      const message = document.getElementById('message').value.trim();
       if (!name || !phone) {
         alert('Пожалуйста, заполните имя и телефон.');
         return;
       }
-      alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
-      leadForm.reset();
+      try {
+        const res = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, message })
+        });
+        if (!res.ok) throw new Error('fail');
+        alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+        leadForm.reset();
+      } catch (error) {
+        alert('Не удалось отправить заявку. Проверьте подключение и попробуйте снова.');
+      }
     });
+
+    async function hydrateFromAdmin() {
+      try {
+        const [settingsRes, offersRes] = await Promise.all([
+          fetch('/api/settings'),
+          fetch('/api/offers')
+        ]);
+        if (settingsRes.ok) {
+          const settings = await settingsRes.json();
+          if (settings.phone) {
+            const clearPhone = settings.phone.replace(/[^\d+]/g, '');
+            document.querySelectorAll('.phone-link').forEach((el) => {
+              el.textContent = settings.phone;
+              el.setAttribute('href', `tel:${clearPhone}`);
+            });
+          }
+          if (settings.heroTitle) {
+            const heroTitleEl = document.querySelector('.hero-title');
+            if (heroTitleEl) heroTitleEl.textContent = settings.heroTitle;
+          }
+          if (settings.heroSubtitle) {
+            const heroTextEl = document.querySelector('.hero-text');
+            if (heroTextEl) heroTextEl.textContent = settings.heroSubtitle;
+          }
+          if (settings.heroImage) {
+            document.querySelectorAll('.hero-card').forEach((el) => {
+              el.style.setProperty('--hero-image', `url('${settings.heroImage}')`);
+            });
+          }
+        }
+
+        if (offersRes.ok) {
+          const offers = await offersRes.json();
+          const offersGrid = document.getElementById('offersGrid');
+          if (offersGrid) {
+            if (!offers.length) {
+              offersGrid.innerHTML = '<p class="note">Скоро здесь появятся новые предложения.</p>';
+            } else {
+              offersGrid.innerHTML = offers.map((offer) => `
+                <article class="offer-card reveal">
+                  ${offer.image ? `<img src="${offer.image}" alt="${offer.title}" loading="lazy" />` : ''}
+                  <div class="offer-card-body">
+                    <h3>${offer.title}</h3>
+                    <p>${offer.description || ''}</p>
+                  </div>
+                </article>
+              `).join('');
+            }
+          }
+        }
+      } catch (error) {
+        // На статическом открытии без сервера просто пропускаем.
+      }
+    }
+    hydrateFromAdmin();
 
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {

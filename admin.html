@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Админка — Cilika Home</title>
+  <link rel="stylesheet" href="./admin.css" />
+</head>
+<body>
+  <main class="admin">
+    <section class="card" id="loginCard">
+      <h1>Вход в админ-панель</h1>
+      <form id="loginForm" class="stack">
+        <input id="login" placeholder="Логин" required />
+        <input id="password" type="password" placeholder="Пароль" required />
+        <button type="submit">Войти</button>
+      </form>
+      <p id="loginError" class="error"></p>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <header class="row">
+        <h1>Админ-панель Cilika Home</h1>
+        <button id="logoutBtn" class="ghost">Выйти</button>
+      </header>
+
+      <section class="card">
+        <h2>Настройки сайта</h2>
+        <form id="settingsForm" class="grid">
+          <label>Название компании <input id="companyName" /></label>
+          <label>Телефон <input id="companyPhone" /></label>
+          <label class="full">Заголовок hero <input id="heroTitle" /></label>
+          <label class="full">Подзаголовок hero <textarea id="heroSubtitle"></textarea></label>
+          <label>Фото hero с компьютера <input id="heroImageFile" type="file" accept="image/*" /></label>
+          <label>Или URL фото hero <input id="heroImageUrl" placeholder="/uploads/..." /></label>
+          <div class="full"><button type="submit">Сохранить настройки</button></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Акции и выгодные предложения</h2>
+        <form id="offerForm" class="grid">
+          <label>Заголовок <input id="offerTitle" required /></label>
+          <label class="full">Описание <textarea id="offerDescription" required></textarea></label>
+          <label>Картинка с компьютера <input id="offerImageFile" type="file" accept="image/*" /></label>
+          <label>Или URL картинки <input id="offerImageUrl" placeholder="/uploads/..." /></label>
+          <label><input id="offerActive" type="checkbox" checked /> Публиковать</label>
+          <div><button type="submit">Добавить акцию</button></div>
+        </form>
+        <div id="offersList" class="stack"></div>
+      </section>
+
+      <section class="card">
+        <h2>Все заявки</h2>
+        <div id="leadsTableWrap"></div>
+      </section>
+    </section>
+  </main>
+  <script src="./admin.js" type="module"></script>
+</body>
+</html>
