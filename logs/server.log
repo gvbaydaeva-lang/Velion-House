@@ -1,0 +1,25 @@
+
+> cilika-home@1.0.0 start
+> node server.js
+
+node:events:486
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::8080
+    at Server.setupListenHandle [as _listen2] (node:net:1948:16)
+    at listenInCluster (node:net:2005:12)
+    at Server.listen (node:net:2110:7)
+    at app.listen (/Users/gilyana08/Desktop/Курсор проекты/silica-home/node_modules/express/lib/application.js:635:24)
+    at file:///Users/gilyana08/Desktop/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D1%80%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/silica-home/server.js:206:5
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1984:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 8080
+}
+
+Node.js v24.14.1
