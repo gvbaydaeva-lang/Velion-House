@@ -16,7 +16,7 @@ const UPLOADS_DIR = path.join(__dirname, "uploads");
 const DB_PATH = path.join(DATA_DIR, "db.json");
 
 const ADMIN_LOGIN = process.env.ADMIN_LOGIN || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Cilika2026!";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Velion2026!";
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
@@ -31,9 +31,9 @@ const DEFAULT_DB = {
   leads: [],
   offers: [],
   settings: {
-    companyName: "Cilika Home",
+    companyName: "Velion House",
     phone: "+7 (999) 123-45-67",
-    heroTitle: "Коттеджные поселки и дома под ключ от компании Cilika Home",
+    heroTitle: "Коттеджные поселки и дома под ключ от компании Velion House",
     heroSubtitle:
       "Строим дома в поселках и на вашем собственном участке, выполняем ремонт и интерьерные работы под ключ.",
     heroImage: "./Строительный участок на солнечном дне.png",
@@ -71,7 +71,7 @@ function requireAdmin(req, res, next) {
 app.use(express.json({ limit: "10mb" }));
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "cilika-home-session-secret",
+    secret: process.env.SESSION_SECRET || "velion-house-session-secret",
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 12 },
@@ -204,5 +204,5 @@ app.get("/admin", (_req, res) => {
 
 await ensureStorage();
 app.listen(PORT, () => {
-  console.log(`Cilika Home started: http://localhost:${PORT}`);
+  console.log(`Velion House started: http://localhost:${PORT}`);
 });

@@ -1,8 +1,8 @@
 {
-  "name": "cilika-home",
+  "name": "velion-house",
   "version": "1.0.0",
   "private": true,
-  "description": "Лендинг Cilika Home — строительство частных домов",
+  "description": "Лендинг Velion House — строительство частных домов",
   "type": "module",
   "scripts": {
     "start": "node server.js",
